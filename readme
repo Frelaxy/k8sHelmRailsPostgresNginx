@@ -1,0 +1,6 @@
+Test project to improve Kubernetes skills
+There are 11 microservices are described in manifests using helm
+For deploy and configuration database Postgres and broker Rabbit using operators
+Ansible-playbook is used for deployment to a minikube
+Have to create secret regcred for pull containers form private repository
+Jobs are used for initialization database and create tables

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ccp-root-config-pvc
+  namespace: {{ .Values.installation.name }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  volumeName: ccp-root-config-pv
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi

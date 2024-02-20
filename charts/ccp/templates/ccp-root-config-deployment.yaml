@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccp-root-config
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: ccp-root-config
+spec:
+  selector:
+    matchLabels:
+      component: ccp-root-config
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: ccp-root-config
+    spec:
+      containers:
+        - name: ccp-root-config
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.ccp_root_config }}:{{ .Values.image.tag }}"
+          volumeMounts:
+          - name: ccp-root-config-pvc
+            mountPath: /ccp-root-config/dist/importmap.json
+          ports:
+          - containerPort: 80
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+          resources:
+            requests:
+              memory: 54Mi
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: ccp-root-config-pvc
+          persistentVolumeClaim:
+            claimName: ccp-root-config-pvc

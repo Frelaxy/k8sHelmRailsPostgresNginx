@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-prepare-activity-job
+  namespace: {{ .Values.installation.name }}
+spec:
+#  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: prepare
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.activity }}:{{ .Values.image.tag }}"
+          command: ['bin/rails']
+          args: ['db:prepare']
+          ports:
+          - containerPort: 80
+          envFrom:
+          - configMapRef:
+              name: activity-env
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+      imagePullSecrets:
+      - name: regcred

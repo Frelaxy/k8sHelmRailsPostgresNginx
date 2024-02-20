@@ -1,0 +1,9 @@
+image:
+  registry: gitlab.activeplatform.com:5050
+  repository:
+    ccp_root_config: activeplatform/ccp/ccp-root-config
+    ccp_core: activebilling/ccp
+    ccp_internal_marketplace: activeplatform/ccp/ccp-internal-marketplace
+  tag: v7.8.1
+installation:
+  name: support

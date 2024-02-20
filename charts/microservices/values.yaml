@@ -1,0 +1,13 @@
+image:
+  registry: gitlab.activeplatform.com:5050
+  repository:
+    activity: microservices/activity
+    ccp_root_config: activeplatform/ccp/ccp-root-config
+    ccp_core: activebilling/ccp
+    ccp_internal_marketplace: activeplatform/ccp/ccp-internal-marketplace
+    cs_app: vendorportal/cs/app
+    cs_celery_worker: vendorportal/cs/celery-worker
+    cs_celery_beat: vendorportal/cs/celery-beat
+  tag: v7.8.1
+installation:
+  name: support

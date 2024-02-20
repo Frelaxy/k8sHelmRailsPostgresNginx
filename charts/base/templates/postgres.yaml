@@ -1,0 +1,26 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: postgres
+  namespace: {{ .Values.installation.name }}
+spec:
+  teamId: {{ .Values.installation.name }}
+  volume:
+    size: 1Gi
+  numberOfInstances: 1
+  users:
+    # zalando:  # database owner
+    # - superuser
+    # - createdb
+    core-ap:
+    - superuser
+    - createdb
+    postgres:
+    - superuser
+    - createdb
+  # databases:
+  #   cs: postgres  # dbname: owner
+  # preparedDatabases:
+  #   cs: {}
+  postgresql:
+    version: "15"

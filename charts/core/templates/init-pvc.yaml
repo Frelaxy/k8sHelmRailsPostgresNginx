@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: init-pvc
+  namespace: {{ .Values.installation.name }}
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  volumeName: init-pv
+  storageClassName: rails-init
+  resources:
+    requests:
+      storage: 1Gi

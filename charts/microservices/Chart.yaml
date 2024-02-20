@@ -1,0 +1,8 @@
+apiVersion: v2
+name: microservices
+version: 1.10.1
+appVersion: v7.8.1
+description: ActivePlatform
+keywords:
+- activity
+- azure_billing

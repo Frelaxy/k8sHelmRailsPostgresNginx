@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccp-core
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: ccp-core
+spec:
+  selector:
+    matchLabels:
+      component: ccp-core
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: ccp-core
+    spec:
+      containers:
+        - name: ccp-core
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.ccp_core }}:{{ .Values.image.tag }}"
+          ports:
+          - containerPort: 80
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+          resources:
+            requests:
+              memory: 54Mi
+      imagePullSecrets:
+      - name: regcred
+
+

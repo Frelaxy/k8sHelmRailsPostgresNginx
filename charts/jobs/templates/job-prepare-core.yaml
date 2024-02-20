@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-prepare-core-job
+  namespace: {{ .Values.installation.name }}
+  labels:
+    job: prepare
+spec:
+#  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: prepare
+          image: {{ .Values.image.registry }}/{{ .Values.image.repository.core }}:{{ .Values.image.tag }}
+          command: ['bin/rails']
+          args: ['db:prepare']
+          # volumeMounts:
+          # - name: {{ .Values.installation.name }}-init-pvc
+          #   mountPath: /app/config/initializers/custom
+          ports:
+          - containerPort: 80
+          envFrom:
+          - configMapRef:
+              name: core-env
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+      imagePullSecrets:
+      - name: regcred
+      # volumes:
+      #   - name: {{ .Values.installation.name }}-init-pvc
+      #     persistentVolumeClaim:
+      #       claimName: {{ .Values.installation.name }}-init-pvc
+      #   - name: seeds-pvc
+      #     persistentVolumeClaim:
+      #       claimName: seeds-pvc
+      #   - name: rakes-pvc
+      #     persistentVolumeClaim:
+      #       claimName: rakes-pvc

@@ -1,0 +1,8 @@
+apiVersion: v2
+name: db-jobs
+version: 1.10.1
+appVersion: v7.8.1
+description: ActivePlatform
+keywords:
+- db:prepare
+- db:seed

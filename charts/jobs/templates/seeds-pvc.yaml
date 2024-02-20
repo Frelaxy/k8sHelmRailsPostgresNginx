@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: seeds-pvc
+  namespace: {{ .Values.installation.name }}
+spec:
+  accessModes:
+    - ReadOnlyMany
+  volumeMode: Filesystem
+  volumeName: seeds-pv
+  storageClassName: rails-seeds
+  resources:
+    requests:
+      storage: 1Gi

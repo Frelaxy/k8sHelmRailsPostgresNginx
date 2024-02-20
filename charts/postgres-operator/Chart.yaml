@@ -1,0 +1,6 @@
+apiVersion: v2
+name: postgres-operator
+version: 1.10.1
+description: ActivePlatform
+keywords:
+- postgres-operator

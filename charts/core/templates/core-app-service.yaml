@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-app
+  namespace: {{ .Values.installation.name }}
+spec:
+  selector:
+    component: core-app
+  type: ClusterIP
+  ports:
+   - port: 80
+     targetPort: 80

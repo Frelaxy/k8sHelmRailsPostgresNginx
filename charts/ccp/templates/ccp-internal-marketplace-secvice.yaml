@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ccp-internal-marketplace
+  namespace: {{ .Values.installation.name }}
+spec:
+  selector:
+    component: ccp-internal-marketplace
+  type: ClusterIP
+  ports:
+   - port: 80
+     targetPort: 80

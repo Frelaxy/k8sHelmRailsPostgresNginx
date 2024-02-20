@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ccp-root-config-pv
+  namespace: {{ .Values.installation.name }}
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/ccp-root-config/importmap.json"

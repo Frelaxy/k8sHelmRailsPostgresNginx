@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: activity-env
+  namespace: {{ .Values.installation.name }}
+  labels:
+    component: activity-app
+data:
+  SECRET_KEY_BASE: secret_key_base      # need to initialize
+  POSTGRES_HOST: postgres
+  POSTGRES_DB: activity_development
+  POSTGRES_USER: core-ap
+  RABBITMQ_HOSTS: rabbit

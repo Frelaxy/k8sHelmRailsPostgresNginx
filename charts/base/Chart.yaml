@@ -1,0 +1,10 @@
+apiVersion: v2
+name: base
+version: 1.10.1
+appVersion: v7.8.1
+description: ActivePlatform
+keywords:
+- postgres
+- rabbit
+- redis
+- web

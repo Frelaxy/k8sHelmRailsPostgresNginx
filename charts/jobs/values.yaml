@@ -1,0 +1,8 @@
+image:
+  registry: gitlab.activeplatform.com:5050
+  repository:
+    core: activebilling/core/customers/noventiq
+    activity: microservices/activity
+  tag: v7.8.1
+installation:
+  name: support

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activity-app
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: activity-app
+spec:
+  selector:
+    matchLabels:
+      component: activity-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: activity-app
+    spec:
+      containers:
+        - name: activity-app
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.activity }}:{{ .Values.image.tag }}"
+          ports:
+          - containerPort: 80
+          envFrom:
+          - configMapRef:
+              name: activity-env
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+      imagePullSecrets:
+      - name: regcred

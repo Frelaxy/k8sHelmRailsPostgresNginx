@@ -1,0 +1,6 @@
+apiVersion: v2
+name: rabbit-operator
+version: 1.10.1
+description: ActivePlatform
+keywords:
+- rabbit-operator

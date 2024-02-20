@@ -1,0 +1,30 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbit
+  namespace: {{ .Values.installation.name }}
+spec:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 1
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 512Mi
+  rabbitmq:
+    additionalConfig: |
+      default_user=guest
+      default_pass=guest
+  # affinity:
+  #   podAntiAffinity:
+  #     preferredDuringSchedulingIgnoredDuringExecution:
+  #     - weight: 100
+  #       podAffinityTerm:
+  #         labelSelector:
+  #           matchExpressions:
+  #             - key: app.kubernetes.io/name
+  #               operator: In
+  #               values:
+  #               - pod-anti-affinity
+  #         topologyKey: kubernetes.io/hostname

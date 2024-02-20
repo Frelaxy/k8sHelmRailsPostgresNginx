@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-env
+  namespace: {{ .Values.installation.name }}
+data:
+  POSTGRES_DB: core_development
+  POSTGRES_USER: core-ap
+  # MS_API_HOST: 'mock_server_url'
+  

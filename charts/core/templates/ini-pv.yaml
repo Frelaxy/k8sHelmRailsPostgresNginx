@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: init-pv
+  namespace: {{ .Values.installation.name }}
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: rails-init
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: "/rails_init"

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-sidekiq
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: core-sidekiq
+spec:
+  selector:
+    matchLabels:
+      component: core-sidekiq
+  template:
+    metadata:
+      labels:
+        component: core-sidekiq
+    spec:
+      containers:
+        - name: core-sidekiq
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          # volumeMounts:
+          # - name: {{ .Values.installation.name }}-init-pvc
+          #   mountPath: /app/config/initializers/custom
+          ports:
+          - containerPort: 80
+          command: ["./bin/sidekiq"]
+          args: ["-C", "config/sidekiq.yml"]
+          envFrom:
+          - configMapRef:
+              name: core-env
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+      imagePullSecrets:
+      - name: regcred
+      # volumes:
+      #   - name: {{ .Values.installation.name }}-init-pvc
+      #     persistentVolumeClaim:
+      #       claimName: {{ .Values.installation.name }}-init-pvc
+          

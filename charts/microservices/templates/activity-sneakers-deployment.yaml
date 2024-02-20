@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activity-sneakers
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: activity-sneakers
+spec:
+  selector:
+    matchLabels:
+      component: activity-sneakers
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: activity-sneakers
+    spec:
+      containers:
+        - name: activity-sneakers
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.activity }}:{{ .Values.image.tag }}"
+          ports:
+          - containerPort: 80
+          command: ["bin/rails"]
+          args: ["sneakers:run"]
+          securityContext:
+            runAsUser: 1001
+          envFrom:
+          - configMapRef:
+              name: activity-env
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+      
+      imagePullSecrets:
+      - name: regcred

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: redis
+spec:
+  selector:
+    matchLabels:
+      component: redis
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis/redis-stack:latest
+          ports:
+          - containerPort: 6379
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 20m
+            limits: 
+              memory: 256Mi

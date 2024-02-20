@@ -1,0 +1,6 @@
+image:
+  registry: gitlab.activeplatform.com:5050
+  repository: activebilling/core/customers/noventiq
+  tag: v7.8.1
+installation:
+  name: support

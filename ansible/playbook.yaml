@@ -1,0 +1,65 @@
+- hosts: localhost
+  tasks:
+  - name: start minikube
+    ansible.builtin.shell:
+      cmd: minikube start
+  
+  - name: copy init configs to minikube container
+    ansible.builtin.shell:
+      cmd: docker cp //home/kiryl/activeplatform/configs_for_local_installation/ap_initializers/core_initializers/. minikube:/rails_init/
+ 
+  - name: copy seeds to minikube container
+    ansible.builtin.shell:
+      cmd: docker cp //home/kiryl/activeplatform/configs_for_local_installation/scripsts/core/seeds/. minikube:/seeds/
+  
+  - name: copy ccp configs to minikube container
+    ansible.builtin.shell:
+      cmd: docker cp //home/kiryl/activeplatform/configs_for_local_installation/configs/ccp_root_config/. minikube:/ccp-root-config/
+ 
+  - name: Deploy postgres-operator activeplatform
+    kubernetes.core.helm:
+      name: postgres-operator
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/postgres-operator
+      wait: true
+
+  - name: Deploy rabbit-operator activeplatform
+    kubernetes.core.helm:
+      name: rabbit-operator
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/rabbit-operator
+      wait: true
+ 
+  - name: Deploy base services activeplatform
+    kubernetes.core.helm:
+      name: support-base
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/base
+ 
+  - name: Waiting to deploing database and rabbit
+    ansible.builtin.shell:
+      cmd: sleep 420
+ 
+  - name: Deploy core services activeplatform
+    kubernetes.core.helm:
+      name: support-core
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/core
+ 
+  - name: Deploy microservices activeplatform
+    kubernetes.core.helm:
+      name: support-microservices
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/microservices
+
+  - name: Deploy ccp activeplatform
+    kubernetes.core.helm:
+      name: ccp
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/ccp
+ 
+  - name: Run jobs db:prepare and db:seed for core and microservices
+    kubernetes.core.helm:
+      name: db-jobs
+      release_namespace: default
+      chart_ref: /home/kiryl/activeplatform/ap_k8s/charts/jobs

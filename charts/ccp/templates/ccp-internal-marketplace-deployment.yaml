@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccp-internal-marketplace
+  namespace: {{ .Values.installation.name }}
+  labels: 
+    component: ccp-internal-marketplace
+spec:
+  selector:
+    matchLabels:
+      component: ccp-internal-marketplace
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: ccp-internal-marketplace
+    spec:
+      containers:
+        - name: ccp-internal-marketplace
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository.ccp_internal_marketplace }}:{{ .Values.image.tag }}"
+          ports:
+          - containerPort: 80
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: core-ap.postgres.credentials.postgresql.acid.zalan.do
+                  key: password
+          resources:
+            requests:
+              memory: 54Mi
+      imagePullSecrets:
+      - name: regcred
+

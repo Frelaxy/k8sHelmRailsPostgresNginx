@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-sidekiq
+  namespace: {{ .Values.installation.name }}
+spec:
+  selector:
+    component: core-sidekiq
+  type: ClusterIP
+  ports:
+   - port: 80
+     targetPort: 80
